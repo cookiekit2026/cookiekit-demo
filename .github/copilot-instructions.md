@@ -4,18 +4,19 @@
 
 CookieKit is a cookie-consent microfrontend service currently in **alpha/beta** — published but not officially released. This is a solo entrepreneurship project built and maintained by a single fullstack developer with 20 years of experience. Prefer pragmatic, direct solutions over over-engineered abstractions.
 
-It consists of two packages in an npm workspace monorepo (Node ≥ 20, npm ≥ 9):
+It is now split across three separate GitHub projects (Node ≥ 20, npm ≥ 9):
 
-| Package                  | Tech                    | Domain                                           | Deployed to                                                 |
-| ------------------------ | ----------------------- | ------------------------------------------------ | ----------------------------------------------------------- |
-| `packages/cookiekit`     | StencilJS 4             | Web-component library (the microfrontend itself) | `cdn.cookiekit.eu` via Vercel (CI from private GitHub repo) |
-| `packages/cookiekit-web` | Next.js 16 (App Router) | Marketing site, docs, subscription               | `www.cookiekit.eu` via Vercel                               |
+| Project         | Tech                    | Domain                                           | Deployed to                                                 |
+| --------------- | ----------------------- | ------------------------------------------------ | ----------------------------------------------------------- |
+| `cookiekit-sdk` | StencilJS 4             | Web-component library (the microfrontend itself) | `cdn.cookiekit.eu` via Vercel (CI from private GitHub repo) |
+| `cookiekit-web` | Next.js 16 (App Router) | Marketing site, docs, subscription               | `www.cookiekit.eu` via Vercel                               |
+| `cookiekit-demo`| React demo app          | Public integration/demo code shown in StackBlitz | GitHub + StackBlitz embed                                   |
 
-`packages/cookiekit-demo` is a temporary scratch project — ignore it.
+`cookiekit-demo` is no longer a temporary scratch project.
 
 ---
 
-## packages/cookiekit (StencilJS web-component library)
+## cookiekit-sdk (StencilJS web-component library)
 
 ### Purpose
 
@@ -40,14 +41,14 @@ Provides the embeddable cookie-consent UI as framework-agnostic web components. 
 - Shared constants (e.g. `COOKIE_NAME = 'cookiekit'`, `COOKIE_TYPE_OPTIONS`) live in `src/constants/index.ts`.
 - Consent categories are `analytics`, `marketing`, `preferences`.
 - The global custom event is `cookiekit:consent-changed`; its `detail` payload is `{ consent, mode, timestamp }`.
-- Generate new components with `npm run generate --workspace=cookiekit`.
-- Tests use Jest + Puppeteer (`*.spec.ts` unit, `*.e2e.ts` end-to-end). Run with `npm test --workspace=cookiekit`.
+- Generate new components with the local SDK generate script in the `cookiekit-sdk` repo.
+- Tests use Jest + Puppeteer (`*.spec.ts` unit, `*.e2e.ts` end-to-end). Run with the local test script in the `cookiekit-sdk` repo.
 - Build output goes to `dist/` and `loader/`. Do not hand-edit files in `www/` or `loader/`.
 - Stencil namespace is `cookiekit`; the ESM entry on the CDN is `cookiekit.esm.js`.
 
 ---
 
-## packages/cookiekit-web (Next.js marketing & subscription site)
+## cookiekit-web (Next.js marketing & subscription site)
 
 ### Purpose
 
@@ -124,15 +125,27 @@ Sales pitch, documentation, and subscription management for CookieKit. Integrate
 
 ---
 
-## Monorepo scripts (root `package.json`)
+## Repository boundaries and scripts
 
-```
-npm start               # stencil dev server
-npm run start:web       # Next.js dev server
-npm run build           # build cookiekit only
-npm run build:all       # build all packages
-npm run build:web       # build cookiekit-web
-```
+- This repository is `cookiekit-demo` only (public React demo app).
+- Run scripts from this repo's `package.json` (for example: `npm run dev`, `npm run build`).
+- Do not assume monorepo workspace flags such as `--workspace` in this repo.
+- SDK-related scripts must be run in the `cookiekit-sdk` repository.
+- Web-related scripts must be run in the `cookiekit-web` repository.
+
+---
+
+## cookiekit-demo (public StackBlitz demo project)
+
+### Purpose
+
+Public demo/integration project used to showcase CookieKit and embed source/editor views in StackBlitz.
+
+### Conventions
+
+- Keep demo code simple and focused on integration clarity.
+- Prefer compatibility with StackBlitz GitHub embedding workflows.
+- When referencing code examples for marketing/docs, prefer stable files such as `src/App.tsx`.
 
 ---
 
