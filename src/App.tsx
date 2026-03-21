@@ -1,35 +1,138 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useMemo, useState } from "react";
+import {
+  hasConsent,
+  onConsentChanged,
+  onConsentDialogClosed,
+  openConsentDialog,
+  readConsent,
+  type ConsentState,
+} from "https://cdn.cookiekit.eu/cookiekit/index.esm.js";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+type GuardScriptResult = {
+  source: string;
+  activatedAt: string;
+  message: string;
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+declare global {
+  interface Window {
+    cookieKitGuardDemo?: GuardScriptResult;
+  }
 }
 
-export default App
+const consentExpressions = [
+  "analytics",
+  "marketing",
+  "preferences",
+  "analytics+marketing",
+  "analytics|preferences",
+];
+
+function App() {
+  const [consent, setConsent] = useState<ConsentState | null>(() =>
+    readConsent(),
+  );
+  const [dialogClosedAt, setDialogClosedAt] = useState<string | null>(null);
+  const [guardScriptResult, setGuardScriptResult] =
+    useState<GuardScriptResult | null>(() => window.cookieKitGuardDemo ?? null);
+
+  useEffect(() => {
+    const unsubscribeConsentChanged = onConsentChanged((nextConsent) => {
+      setConsent(nextConsent);
+      window.setTimeout(() => {
+        setGuardScriptResult(window.cookieKitGuardDemo ?? null);
+      }, 0);
+    });
+
+    const unsubscribeDialogClosed = onConsentDialogClosed(() => {
+      setDialogClosedAt(new Date().toLocaleTimeString());
+      setConsent(readConsent());
+      window.setTimeout(() => {
+        setGuardScriptResult(window.cookieKitGuardDemo ?? null);
+      }, 0);
+    });
+
+    return () => {
+      unsubscribeConsentChanged();
+      unsubscribeDialogClosed();
+    };
+  }, []);
+
+  const expressionChecks = useMemo(() => {
+    return consentExpressions.map((expression) => ({
+      expression,
+      granted: hasConsent(expression),
+    }));
+  }, []);
+
+  const openDialog = () => {
+    openConsentDialog();
+  };
+
+  const refreshFromCookie = () => {
+    setConsent(readConsent());
+    setGuardScriptResult(window.cookieKitGuardDemo ?? null);
+  };
+
+  return (
+    <main className="app-shell">
+      <header>
+        <p className="eyebrow">CookieKit demo</p>
+        <h1>SDK utility methods in React</h1>
+        <p className="lead">
+          This demo reads consent state using CookieKit SDK utilities and reacts
+          to consent changes.
+        </p>
+      </header>
+
+      <section className="card">
+        <h2>Dialog actions</h2>
+        <div className="action-row">
+          <button type="button" onClick={openDialog}>
+            Open consent dialog
+          </button>
+          <button
+            type="button"
+            className="secondary"
+            onClick={refreshFromCookie}
+          >
+            Refresh with readConsent()
+          </button>
+        </div>
+        <p>
+          Last dialog closed event:{" "}
+          <strong>{dialogClosedAt ?? "No close event received yet"}</strong>
+        </p>
+      </section>
+
+      <section className="card">
+        <h2>Current consent (readConsent)</h2>
+        <pre>{JSON.stringify(consent, null, 2)}</pre>
+      </section>
+
+      <section className="card">
+        <h2>Consent guard script status</h2>
+        <p>
+          <code>readGuardScriptResult()</code> returns{" "}
+          <strong>{guardScriptResult ? "value" : "null"}</strong>
+        </p>
+        <pre>{JSON.stringify(guardScriptResult, null, 2)}</pre>
+      </section>
+
+      <section className="card">
+        <h2>Expression checks (hasConsent)</h2>
+        <ul>
+          {expressionChecks.map((item) => (
+            <li key={item.expression}>
+              <code>{item.expression}</code>:{" "}
+              {item.granted ? "granted" : "not granted"}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+  );
+}
+
+export default App;
