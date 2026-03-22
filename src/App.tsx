@@ -36,9 +36,7 @@ function App() {
     readConsent(),
   );
   const [subscriptionStatus, setSubscriptionStatus] =
-    useState<SubscriptionStatusResponse | null>(() =>
-      getSubscriptionStatus(),
-    );
+    useState<SubscriptionStatusResponse | null>(() => getSubscriptionStatus());
   const [dialogClosedAt, setDialogClosedAt] = useState<string | null>(null);
   const [guardScriptResult, setGuardScriptResult] =
     useState<GuardScriptResult | null>(() => window.cookieKitGuardDemo ?? null);
