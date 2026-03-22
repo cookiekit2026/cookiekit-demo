@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  getSubscriptionStatus,
   hasConsent,
   onConsentChanged,
   onConsentDialogClosed,
   openConsentDialog,
   readConsent,
   type ConsentState,
+  type SubscriptionStatusResponse,
 } from "https://cdn.cookiekit.eu/cookiekit/index.esm.js";
 import "./App.css";
 
@@ -33,6 +35,10 @@ function App() {
   const [consent, setConsent] = useState<ConsentState | null>(() =>
     readConsent(),
   );
+  const [subscriptionStatus, setSubscriptionStatus] =
+    useState<SubscriptionStatusResponse | null>(() =>
+      getSubscriptionStatus(),
+    );
   const [dialogClosedAt, setDialogClosedAt] = useState<string | null>(null);
   const [guardScriptResult, setGuardScriptResult] =
     useState<GuardScriptResult | null>(() => window.cookieKitGuardDemo ?? null);
@@ -40,6 +46,7 @@ function App() {
   useEffect(() => {
     const unsubscribeConsentChanged = onConsentChanged((nextConsent) => {
       setConsent(nextConsent);
+      setSubscriptionStatus(getSubscriptionStatus());
       window.setTimeout(() => {
         setGuardScriptResult(window.cookieKitGuardDemo ?? null);
       }, 0);
@@ -48,6 +55,7 @@ function App() {
     const unsubscribeDialogClosed = onConsentDialogClosed(() => {
       setDialogClosedAt(new Date().toLocaleTimeString());
       setConsent(readConsent());
+      setSubscriptionStatus(getSubscriptionStatus());
       window.setTimeout(() => {
         setGuardScriptResult(window.cookieKitGuardDemo ?? null);
       }, 0);
@@ -72,6 +80,7 @@ function App() {
 
   const refreshFromCookie = () => {
     setConsent(readConsent());
+    setSubscriptionStatus(getSubscriptionStatus());
     setGuardScriptResult(window.cookieKitGuardDemo ?? null);
   };
 
@@ -109,6 +118,15 @@ function App() {
       <section className="card">
         <h2>Current consent (readConsent)</h2>
         <pre>{JSON.stringify(consent, null, 2)}</pre>
+      </section>
+
+      <section className="card">
+        <h2>Subscription status (getSubscriptionStatus)</h2>
+        <p>
+          <code>getSubscriptionStatus()</code> returns{" "}
+          <strong>{subscriptionStatus ? "value" : "null"}</strong>
+        </p>
+        <pre>{JSON.stringify(subscriptionStatus, null, 2)}</pre>
       </section>
 
       <section className="card">

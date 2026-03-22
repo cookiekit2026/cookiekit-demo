@@ -13,7 +13,14 @@ declare module "https://cdn.cookiekit.eu/cookiekit/index.esm.js" {
     timestamp: string;
   };
 
+  export type SubscriptionStatusResponse = {
+    active: boolean;
+    plan: string;
+    renewalDate: string | null;
+  };
+
   export function readConsent(): ConsentState | null;
+  export function getSubscriptionStatus(): SubscriptionStatusResponse | null;
   export function hasConsent(expression?: string): boolean;
   export function onConsentChanged(
     callback: (consent: ConsentState | null) => void,
