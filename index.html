@@ -5,28 +5,136 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="index.css">
   <title>PrivacyKit Demo</title>
-  <!-- Add script from cookiekit -->
-  <script type="module" src="https://cdn.cookiekit.eu/cookiekit/cookiekit.esm.js"></script>
-  <script nomodule src="https://cdn.cookiekit.eu/cookiekit/cookiekit.js"></script>
-
+  <!-- Add PrivacyKit web components: consent-dialog, consent-guard, consent-missing -->
+  <script type="module" src="https://cdn.privacykit.eu/privacykit/privacykit.esm.js"></script>
+  <script nomodule src="https://cdn.privacykit.eu/privacykit/privacykit.js"></script>
+  <!-- Add PrivacyKit JavaScript API for frameworks like React and Vue and Plain JS (optional) -->
+  <script type="module" src="https://cdn.privacykit.eu/privacykit/index.esm.js"></script>
+  <!-- Add consent-guard(s) to block/load 3rd party scripts -->
+  <consent-guard consent="marketing">
+    <script type="text/plain" data-src="https://www.googletagmanager.com/gtm/js"></script>
+  </consent-guard>
 </head>
 
 <body>
+
+  <!-- Add consent-dialog -->
+  <consent-dialog variant="modern" expires-days="180" demo></consent-dialog>
+
+  <consent-guard consent="preferences">
+    <script type="text/plain">
+        window.preferencesScript = {
+          message: 'Preferences consent granted. Guarded script executed.',
+        };
+      </script>
+  </consent-guard>
   <consent-guard consent="analytics">
     <script type="text/plain">
-        window.cookieKitGuardDemo = {
-          source: 'consent-guard-inline-script',
-          activatedAt: new Date().toISOString(),
+        window.analyticsScript = {
           message: 'Analytics consent granted. Guarded script executed.',
         };
       </script>
   </consent-guard>
+  <consent-guard consent="marketing">
+    <script type="text/plain">
+        window.marketingScript = {
+          message: 'Marketing consent granted. Guarded script executed.',
+        };
+      </script>
+  </consent-guard>
 
-  <consent-dialog design="standard" expires-days="180"></consent-dialog>
-  <div id="root"></div>
+  <div class="container">
+    <h1 style="margin-bottom: 0">Directive & Sons Industries</h1>
+    <div>A GDPR complicant company</div>
 
-  <script type="module" src="/src/main.tsx"></script>
+    <div class="video-content">
+      <consent-guard consent="analytics+marketing" id="123">
+        <iframe class="iframe" data-src="https://www.youtube.com/embed/O8yypD7RiJU" title="YouTube video"
+          frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+      </consent-guard>
+      <consent-missing for="123">
+        <div class="iframe">
+          <div class="alt-content">
+            <p>We need your consent to Analytics and Marketing cookies to show you this content.</p>
+          </div>
+        </div>
+      </consent-missing>
+    </div>
+
+    <div id="preferences-message" class="script-status">
+      Preferences script has not run yet.
+    </div>
+    <div id="analytics-message" class="script-status">
+      Analytics script has not run yet.
+    </div>
+    <div id="marketing-message" class="script-status">
+      Marketing script has not run yet.
+    </div>
+
+    <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #797979; text-align: right; ">
+      <button id="open-consent-dialog" class="btn">Open Consent Dialog</button>
+    </div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </div>
+
+
+  <script>
+    /* open-consent-dialog cript */
+    const consentDialog = document.querySelector('consent-dialog');
+    async function openConsentDialog(event) {
+      if (event) event.preventDefault();
+      if (!consentDialog) return;
+      if (typeof consentDialog.openDialog === 'function') {
+        consentDialog.openDialog();
+      }
+    }
+    document.getElementById('open-consent-dialog')?.addEventListener('click', openConsentDialog);
+  </script>
+
+  <script>
+    /* validate consent-guards script */
+    const scriptStatusConfigs = [
+      {
+        id: 'preferences-message',
+        key: 'preferencesScript',
+        fallback: 'Preferences script has not run yet.',
+      },
+      {
+        id: 'analytics-message',
+        key: 'analyticsScript',
+        fallback: 'Analytics script has not run yet.',
+      },
+      {
+        id: 'marketing-message',
+        key: 'marketingScript',
+        fallback: 'Marketing script has not run yet.',
+      },
+    ];
+
+    function renderScriptStatuses() {
+      scriptStatusConfigs.forEach(({ id, key, fallback }) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const scriptResult = window[key];
+        el.textContent = scriptResult?.message ?? fallback;
+        if (scriptResult) {
+          el.classList.add('granted');
+        } else {
+          el.classList.remove('granted');
+        }
+      });
+    }
+
+    renderScriptStatuses();
+
+    window.addEventListener('privacykit:guard-evaluated', renderScriptStatuses);
+  </script>
+
 </body>
 
 </html>
