@@ -45,9 +45,13 @@
       </script>
   </consent-guard>
 
-  <div class="container">
+  <main class="container">
     <h1 style="margin-bottom: 0">Directive & Sons Industries</h1>
     <div>A GDPR complicant company</div>
+
+    <div class="segment-header">
+      <h2>Using PrivacyKit with HTML/JS</h2>
+    </div>
 
     <div class="video-content">
       <consent-guard consent="analytics+marketing" id="123">
@@ -74,13 +78,13 @@
       Marketing script has not run yet.
     </div>
 
-    <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #797979; text-align: right; ">
+    <div class="action-row">
       <button id="open-consent-dialog" class="btn">Open Consent Dialog</button>
     </div>
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-  </div>
+  </main>
 
 
   <script>

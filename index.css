@@ -1,10 +1,10 @@
 html {
   --bg-color: #121212;
-  --action-color: #6ef9b2; /* #3bb892; */
+  --primary-color: #6ef9b2;
 }
 
 body {
-  margin: 0;
+  margin: 0 0 6rem 0;
   padding: 0;
   background-color: var(--bg-color);
   color: #fff;
@@ -13,23 +13,35 @@ body {
 
 .btn {
   appearance: none;
+  padding: 0.75rem 1rem;
   border-radius: 2px;
-  border: 1px solid var(--action-color);
-  color: var(--action-color);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
   background-color: transparent;
   font-size: 0.92em;
   cursor: pointer;
 }
 
 .btn:hover {
-  background: color-mix(in srgb, var(--action-color) 12%, transparent);
+  background: color-mix(in srgb, var(--primary-color) 12%, transparent);
 }
 
 .container {
-  max-width: 700px;
+  max-width: 768px;
   width: 100%;
   margin: 0 auto;
   padding: 2rem 1rem;
+}
+
+.segment-header {
+  margin-top: 2rem;
+  border-bottom: 1px solid #797979;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.segment-header h2 {
+  margin-bottom: 0;
 }
 
 .video-content {
@@ -67,10 +79,47 @@ body {
 }
 
 .script-status.granted {
-  border-color: var(--action-color);
+  border-color: var(--primary-color);
   background-color: #14241c;
-  color: var(--action-color);
+  color: var(--primary-color);
 }
+
+.action-row {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.section {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #797979;
+  border-radius: 4px;
+  background-color: #1f1f1f;
+  color: #f6f6f6;
+  font-size: 0.95rem;
+}
+
+.section h3 {
+  margin-top: 0;
+}
+
+pre {
+  margin: 0;
+  background: #0e1512;
+  color: var(--primary-color);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  overflow: auto;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+/* .card h2 {
+  margin-top: 0;
+} */
 
 /* 
  * prevent flickering
