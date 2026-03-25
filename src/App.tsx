@@ -8,7 +8,7 @@ import {
   readConsent,
   type ConsentState,
   type SubscriptionStatusResponse,
-} from "https://cdn.cookiekit.eu/cookiekit/index.esm.js";
+} from "https://cdn.privacykit.eu/privacykit/index.esm.js";
 import "./App.css";
 
 type GuardScriptResult = {
@@ -73,6 +73,7 @@ function App() {
   }, []);
 
   const openDialog = () => {
+    console.log("openConsentDialog", openConsentDialog);
     openConsentDialog();
   };
 

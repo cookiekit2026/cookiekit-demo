@@ -1,4 +1,4 @@
-declare module "https://cdn.cookiekit.eu/cookiekit/index.esm.js" {
+declare module "https://cdn.privacykit.eu/privacykit/index.esm.js" {
   export type ConsentState = {
     analytics: boolean;
     marketing: boolean;
