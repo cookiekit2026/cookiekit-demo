@@ -42,7 +42,7 @@ const PrivacyKitDemo: FunctionComponent = () => {
   return (
     <div>
       <div className="segment-header">
-        <h2>Using PrivacyKit with React</h2>
+        <h2>PrivacyKit with React</h2>
       </div>
 
       <div className="action-row">
