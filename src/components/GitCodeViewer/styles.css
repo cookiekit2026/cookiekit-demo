@@ -1,0 +1,86 @@
+.code-snippet-root {
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1117;
+}
+
+.code-snippet-header {
+  height: 44px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0d1117;
+  border-bottom: 1px solid #30363d;
+  color: #c9d1d9;
+}
+
+.code-snippet-footer {
+  min-height: 44px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #0d1117;
+  border-top: 1px solid #30363d;
+  color: #8b949e;
+  font-size: 13px;
+}
+
+.code-snippet-title {
+  font-size: 14px;
+  font-family: monospace;
+}
+
+.code-snippet-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #58a6ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.code-snippet-link:hover {
+  text-decoration: underline;
+}
+
+.code-snippet-body {
+  overflow: auto;
+}
+
+.code-snippet-error {
+  padding: 16px;
+  color: #f87171;
+  background: #0d1117;
+}
+
+.code-snippet-body::-webkit-scrollbar-corner {
+  background: #0d1117; /* match your background */
+}
+
+.code-snippet-body::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.code-snippet-body::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 6px;
+}
+
+.code-snippet-body::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+.code-snippet-body pre {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  min-width: max-content;
+}
+
+.code-snippet-body pre code {
+  font-size: 0.9rem;
+}

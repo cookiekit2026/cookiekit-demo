@@ -46,11 +46,22 @@
   </consent-guard>
 
   <main class="container">
+
+    <div style="margin-bottom: 2rem">
+      <a href="https://www.privacykit.eu" target="_self">
+        <button class="btn primary">Go back to PrivacyKit</button>
+      </a>
+    </div>
+
     <h1 style="margin-bottom: 0">Directive & Sons Industries</h1>
     <div>A GDPR complicant company</div>
 
     <div class="segment-header">
-      <h2>Using PrivacyKit with HTML/JS</h2>
+      <h2>Using PrivacyKit with JavaScript</h2>
+    </div>
+
+    <div class="action-row">
+      <button id="open-consent-dialog" class="btn secondary">Open Consent Dialog</button>
     </div>
 
     <div class="video-content">
@@ -78,10 +89,6 @@
       Marketing script has not run yet.
     </div>
 
-    <div class="action-row">
-      <button id="open-consent-dialog" class="btn">Open Consent Dialog</button>
-    </div>
-
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </main>
@@ -106,17 +113,17 @@
       {
         id: 'preferences-message',
         key: 'preferencesScript',
-        fallback: 'Preferences script has not run yet.',
+        fallback: 'Preferences script has been blocked.',
       },
       {
         id: 'analytics-message',
         key: 'analyticsScript',
-        fallback: 'Analytics script has not run yet.',
+        fallback: 'Analytics script has been blocked.',
       },
       {
         id: 'marketing-message',
         key: 'marketingScript',
-        fallback: 'Marketing script has not run yet.',
+        fallback: 'Marketing script has been blocked.',
       },
     ];
 
