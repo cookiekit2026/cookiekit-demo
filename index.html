@@ -21,7 +21,7 @@
 <body>
 
   <!-- Add consent-dialog -->
-  <consent-dialog variant="modern" expires-days="180" demo></consent-dialog>
+  <consent-dialog variant="modern" expires-days="180"></consent-dialog>
 
   <consent-guard consent="preferences">
     <script type="text/plain">
@@ -47,10 +47,9 @@
 
   <main class="container">
 
-    <div style="margin-bottom: 2rem">
-      <a href="https://www.privacykit.eu" target="_self">
-        <button class="btn primary">Go back to PrivacyKit</button>
-      </a>
+    <div style="margin-bottom: 2rem; font-size: 0.9rem;">
+      THIS IS A DEMO OF PRIVACYKIT CONSENT MANAGEMENT. GO BACK TO PRIVACYKIT WEBSITE <a href="https://www.privacykit.eu"
+        target="_self" style="color: var(--secondary-color)">HERE</a>.
     </div>
 
     <h1 style="margin-bottom: 0">Directive & Sons Industries</h1>
@@ -79,15 +78,9 @@
       </consent-missing>
     </div>
 
-    <div id="preferences-message" class="script-status">
-      Preferences script has not run yet.
-    </div>
-    <div id="analytics-message" class="script-status">
-      Analytics script has not run yet.
-    </div>
-    <div id="marketing-message" class="script-status">
-      Marketing script has not run yet.
-    </div>
+    <div id="preferences-message" class="script-status"></div>
+    <div id="analytics-message" class="script-status"></div>
+    <div id="marketing-message" class="script-status"></div>
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

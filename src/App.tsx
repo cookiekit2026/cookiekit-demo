@@ -9,7 +9,7 @@ function App() {
       </div>
       <PrivacyKitDemo />
       <div style={{ margin: '1rem 0' }}>
-        <GitCodeViewer title="React" repo="privacykit-eu/privacykit-demo" path="master/src/App.tsx" lang="tsx" height="400px" />
+        <GitCodeViewer title="React" repo="privacykit-eu/privacykit-demo" path="master/src/components/PrivacyKitDemo.tsx" lang="tsx" height="400px" />
       </div>
     </>
   );
