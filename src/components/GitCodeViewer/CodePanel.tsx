@@ -24,7 +24,7 @@ export const CodePanel: FunctionComponent<Props> = ({ title, html, githubUrl, gi
           {githubUrl && (
             <a href={githubUrl} target="_blank" rel="noreferrer" className="code-snippet-link" aria-label={githuTitle}>
               <span>{githuTitle}</span>
-              <img src={githubIcon} alt="GitHub" width={16} height={16} style={{ display: 'block', fill: '#58a6ff' }} />
+              <img src={githubIcon} alt="GitHub" width={16} height={16} style={{ display: 'block' }} />
             </a>
           )}
           {urlPath && urlTitle && (

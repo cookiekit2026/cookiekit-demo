@@ -46,7 +46,7 @@ const PrivacyKitDemo: FunctionComponent = () => {
       </div>
 
       <div className="action-row">
-        <button className="btn secondary" onClick={openDialog}>
+        <button className="btn primary" onClick={openDialog}>
           Open consent dialog
         </button>
       </div>
