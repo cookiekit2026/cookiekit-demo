@@ -28,10 +28,10 @@ declare global {
   // ── Shared types ──────────────────────────────────────────────────────────────
 
   /** Visual variant of the consent dialog. */
-  type ConsentDialogVariant = "standard" | "modern" | "modest";
+  type ConsentDialogVariant = 'standard' | 'modern' | 'modest';
 
   /** Locale supported by PrivacyKit ('en' | 'no'). Falls back to 'en'. */
-  type ConsentDialogLocale = "en" | "no";
+  type ConsentDialogLocale = 'en' | 'no';
 
   /**
    * Payload dispatched on `window` as the `privacykit:consent-changed` event.
@@ -47,7 +47,7 @@ declare global {
       marketing: boolean;
       preferences: boolean;
     };
-    mode: "accept-all" | "accept-selected" | "reject-all";
+    mode: 'accept-all' | 'accept-selected' | 'reject-all';
     timestamp: string;
   }
 
@@ -67,9 +67,7 @@ declare global {
   interface PrivacyKitGlobalApi {
     readConsent(): PrivacyKitConsentState | null;
     hasConsent(expression?: string): boolean;
-    onConsentChanged(
-      callback: (consent: PrivacyKitConsentState | null) => void,
-    ): () => void;
+    onConsentChanged(callback: (consent: PrivacyKitConsentState | null) => void): () => void;
     openConsentDialog(): void;
     onConsentDialogClosed(callback: () => void): () => void;
     getSubscriptionStatus(): PrivacyKitSubscriptionStatus | null;
@@ -124,8 +122,6 @@ declare global {
     noAnalytics: boolean | undefined;
     /** Hide the "Marketing" section from the dialog. */
     noMarketing: boolean | undefined;
-    /** Emit debug info to the console. */
-    debug: boolean | undefined;
     /** Demo mode: disables auto-open and mocks subscription status. */
     demo: boolean | undefined;
     /** Whether the dialog is currently open. @default false */
@@ -188,13 +184,13 @@ declare global {
   }
 
   interface HTMLElementTagNameMap {
-    "consent-dialog": HTMLConsentDialogElement;
-    "consent-guard": HTMLConsentGuardElement;
-    "consent-missing": HTMLConsentMissingElement;
+    'consent-dialog': HTMLConsentDialogElement;
+    'consent-guard': HTMLConsentGuardElement;
+    'consent-missing': HTMLConsentMissingElement;
   }
 
   interface WindowEventMap {
-    "privacykit:consent-changed": CustomEvent<PrivacyKitConsentChangedDetail>;
+    'privacykit:consent-changed': CustomEvent<PrivacyKitConsentChangedDetail>;
   }
 }
 
@@ -211,34 +207,32 @@ type CKRef<T> = { current: T | null } | ((instance: T | null) => void) | null;
 
 interface ConsentDialogJSXProps {
   /** Visual variant. @default 'standard' */
-  variant?: ConsentDialogVariant;
+  'variant'?: ConsentDialogVariant;
   /** Cookie TTL in days. @default 180 */
-  "expires-days"?: number;
+  'expires-days'?: number;
   /** Policy version; bump to force re-consent. @default 0 */
-  version?: number;
+  'version'?: number;
   /** Locale override: 'en' | 'no'. Defaults to browser locale. */
-  locale?: string;
+  'locale'?: string;
   /** Hide the "Strictly necessary" section. */
-  "no-necessary"?: boolean | "";
+  'no-necessary'?: boolean | '';
   /** Hide the "Preferences" section. */
-  "no-preferences"?: boolean | "";
+  'no-preferences'?: boolean | '';
   /** Hide the "Analytics" section. */
-  "no-analytics"?: boolean | "";
+  'no-analytics'?: boolean | '';
   /** Hide the "Marketing" section. */
-  "no-marketing"?: boolean | "";
-  /** Enable debug output. */
-  debug?: boolean | "";
+  'no-marketing'?: boolean | '';
   /** Enable demo mode. */
-  demo?: boolean | "";
+  'demo'?: boolean | '';
   /** Open/close state. */
-  open?: boolean | "";
-  ref?: CKRef<HTMLConsentDialogElement>;
-  children?: unknown;
+  'open'?: boolean | '';
+  'ref'?: CKRef<HTMLConsentDialogElement>;
+  'children'?: unknown;
   /** Inline styles — pass CSS custom properties like `--pk-primary-color` here. */
-  style?: Record<string, string | number>;
-  class?: string;
-  className?: string;
-  id?: string;
+  'style'?: Record<string, string | number>;
+  'class'?: string;
+  'className'?: string;
+  'id'?: string;
 }
 
 interface ConsentGuardJSXProps {
@@ -272,19 +266,19 @@ interface ConsentMissingJSXProps {
 // React 18 global JSX namespace (also consumed by older Next.js setups)
 declare namespace JSX {
   interface IntrinsicElements {
-    "consent-dialog": ConsentDialogJSXProps;
-    "consent-guard": ConsentGuardJSXProps;
-    "consent-missing": ConsentMissingJSXProps;
+    'consent-dialog': ConsentDialogJSXProps;
+    'consent-guard': ConsentGuardJSXProps;
+    'consent-missing': ConsentMissingJSXProps;
   }
 }
 
 // React 18+ scoped JSX namespace (preferred in modern Next.js / React setups)
-declare module "react" {
+declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      "consent-dialog": ConsentDialogJSXProps;
-      "consent-guard": ConsentGuardJSXProps;
-      "consent-missing": ConsentMissingJSXProps;
+      'consent-dialog': ConsentDialogJSXProps;
+      'consent-guard': ConsentGuardJSXProps;
+      'consent-missing': ConsentMissingJSXProps;
     }
   }
 }
